@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+    body {
+        display: flex;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    aside {
+        width: 200px;
+        background-color: #333;
+        color: #c91515;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    main {
+        flex: 1;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    a {
+        color: #c81212;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
+    }
+</style>
+
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ session['username'] }}</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+        <div>
+            <p>This is the dashboard content. You can add more content here.</p>
+        </div>
+    </div>
+</body>
+</html>

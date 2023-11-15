@@ -1,0 +1,24 @@
+<!-- create_invoice_existing_customer.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Create Invoice for Existing Customer</h1>
+        <form method="post" action="{{ url_for('existing_customer_details') }}">
+            <label for="existing_customer">Select Existing Customer:</label>
+            <select id="existing_customer" name="existing_customer" required>
+                {% for customer in customers %}
+                    <option value="{{ customer[0] }}">{{ customer[1] }}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Next</button>
+        </form>
+    </div>
+</body>
+</html>
