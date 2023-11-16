@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        function addToSelected() {
+            let product = document.getElementById('product').value;
+            let price = parseFloat(document.getElementById('product').options[document.getElementById('product').selectedIndex].getAttribute('data-price'));
+            let quantity = parseInt(document.getElementById('quantity').value);
+
+            let selectedProducts = document.getElementById('selected-products');
+            let option = document.createElement('option');
+            option.text = `${product} - Quantity: ${quantity} - $${(price * quantity).toFixed(2)}`;
+            selectedProducts.add(option);
+
+            // Update the total after adding the selected product
+            updateTotal(price, quantity);
+        }
+
+        function updateTotal(price, quantity) {
+            let currentTotal = parseFloat(document.getElementById('total').innerText);
+            let newTotal = currentTotal + (price * quantity);
+
+            document.getElementById('total').innerText = newTotal.toFixed(2);
+        }
+    </script>
+</head>
+<body>
+    <form>
+        <label for="invoiceName">Invoice Name:</label>
+        <input type="text" id="invoiceName" name="invoiceName" value="{{ session['invoiceName'] }}" readonly><br>
+        <label for="invoiceName">Email ID:</label>
+
+        <input type="text" id="email" name="email" value="{{ session['email'] }}" readonly><br>
+
+        <label for="create-date">Invoice Created On:</label>
+        <input type="date" id="create-date" name="create-date">
+        <label for="due-date">Due date:</label>
+        <input type="date" id="due-date" name="due-date">
+
+        <label for="product">Select Product:</label>
+        <select id="product" name="product">
+            {% for product in products %}
+                <option value="{{ product[1] }}" data-price="{{ product[2] }}">{{ product[1] }}</option>
+            {% endfor %}
+        </select>
+        
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1" value="1">
+        
+        <button type="button" onclick="addToSelected()">Add</button>
+        
+        <h2>Selected Products:</h2>
+        <select id="selected-products" multiple></select>
+        
+        <h2>Total:</h2>
+        <span id="total">0.00</span>
+
+        <button type="button" onclick="generateInvoice()">Generate Invoice</button>
+    </form>
+
+    <script>
+        function generateInvoice() {
+            let invoiceName = document.getElementById('invoiceName').value;
+            let email = document.getElementById('email').value;
+            let createDate = document.getElementById('create-date').value;
+            let dueDate = document.getElementById('due-date').value;
+            let totalAmount = document.getElementById('total').innerText;
+
+            // Prepare the data to be sent to the server
+            let data = {
+                invoiceName: invoiceName,
+                email: email,
+                createDate: createDate,
+                dueDate: dueDate,
+                totalAmount: totalAmount
+                // You might also need to send the selected products and their quantities
+            };
+
+            // Perform AJAX request to send data to the server
+            // Example using fetch API
+            fetch('/generate_invoice', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        // Handle response from the server
+        if (response.ok) {
+            // Show the success flash message
+            // Redirect the user to the manage invoices page
+            window.location.href = '/manage_invoices';
+        } else {
+            // Handle errors or display error messages
+        }
+    })
+    .catch(error => {
+        // Handle errors if any
+    });        }
+    </script>
+    
+</body>
+</html>

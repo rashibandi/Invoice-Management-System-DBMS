@@ -1,0 +1,53 @@
+<!-- create_invoice_new_customer.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Invoice for New Customer</title>
+    <!-- Add your meta tags and title here -->
+    <!-- Include your CSS file -->
+</head>
+<body>
+    <div class="container">
+        <h1>Create Invoice for New Customer</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form action="/create_invoice/new_customer" method="POST">
+            <label for="invoiceName">Invoice Name:</label>
+            <input type="text" id="invoiceName" name="invoiceName" required><br><br>
+
+            <label for="customer_name">Customer Name:</label>
+            <input type="text" id="customer_name" name="customer_name" required><br><br>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            
+            <label for="house_no">House No:</label>
+            <input type="text" id="house_no" name="house_no" required><br><br>
+            
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required><br><br>
+            
+            <label for="country">Country:</label>
+            <input type="text" id="country" name="country" required><br><br>
+            
+            <label for="postcode">Postcode:</label>
+            <input type="text" id="postcode" name="postcode" required><br><br>
+            
+            <label for="phone">Phone:</label>
+            <input type="text" id="phone" name="phone" required><br><br>
+            
+            <input type="submit" value="Create Invoice">
+        </form>
+    </div>
+</body>
+</html>

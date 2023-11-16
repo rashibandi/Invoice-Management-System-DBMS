@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Invoices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Invoices</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}        <table>
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Invoice Number</th>
+                    <th>Customer Email ID</th>
+                    <th>Generated On</th>
+                    <th>Due Date</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                    <tr>
+                        <td>{{ invoice[0] }}</td> <!-- Assuming the first column is the ID -->
+                        <td>{{ invoice[1] }}</td> <!-- Assuming the first column is the ID -->
+                        <td>{{ invoice[2] }}</td> <!-- Assuming the first column is the ID -->
+                        <td>{{ invoice[3] }}</td> <!-- Assuming the first column is the ID -->
+                        <td>{{ invoice[4] }}</td> <!-- Assuming the first column is the ID -->
+                        <td>{{ invoice[5] }}</td> <!-- Assuming the first column is the ID -->
+                        <td>{{ invoice[6] }}</td> <!-- Assuming the first column is the ID -->
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

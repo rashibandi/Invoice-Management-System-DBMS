@@ -1,0 +1,58 @@
+<!-- create_invoice_existing_customer.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoices</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Create Invoice for Existing Customer</h1>
+        <form method="post" action="{{ url_for('create_invoice_existing_customer') }}">
+            <label for="existing_customer">Select Existing Customer:</label>
+            <select id="existing_customer" name="existing_customer" onchange="getCustomerDetails(this.value)" required>
+                {% for customer in customers %}
+                    <option value="{{ customer[0] }}">{{ customer[2] }}</option>
+                {% endfor %}
+            </select><br><br>
+    
+            <!-- Customer details section -->
+            <div id="customerDetails">
+                <!-- Customer details will be displayed here -->
+            </div>
+    
+            <label for="invoiceName">Invoice Name:</label>
+            <input type="text" id="invoiceName" name="invoiceName" required><br><br>
+    
+            <button type="submit">Next</button>
+
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul>
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+        </form>
+    </div>
+    
+    <script>
+        function getCustomerDetails(customerId) {
+            const customerOptions = document.getElementById('existing_customer');
+            const selectedIndex = customerOptions.selectedIndex;
+            const selectedCustomer = customerOptions.options[selectedIndex];
+            const email = selectedCustomer.getAttribute('data-email');
+    
+            let customerDetails = document.getElementById('customerDetails');
+            customerDetails.innerHTML = `
+                <p>Email: ${email}</p>
+                <!-- Add more customer details as needed -->
+            `;
+        }
+    </script>
+</body>
+</html>
