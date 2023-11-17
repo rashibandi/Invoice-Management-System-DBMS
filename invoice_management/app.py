@@ -71,8 +71,38 @@ def dashboard():
     if 'username' not in session:
         return redirect(url_for('login'))
     else:
-        print("dashboard")
-        return render_template('dashboard.html')
+        # Establish a database connection
+        connection = check_db_connection()
+        
+        if connection:
+            cursor = connection.cursor(dictionary=True)
+            
+            # Execute the queries
+            cursor.execute("SELECT SUM(total) AS total_amount_due FROM invoices WHERE status = 'open';")
+            total_amount_due = cursor.fetchone()['total_amount_due']
+
+            cursor.execute("SELECT SUM(total) AS total_amount_received FROM invoices WHERE status = 'paid';")
+            total_amount_received = cursor.fetchone()['total_amount_received']
+
+            cursor.execute("SELECT COUNT(*) AS total_invoices FROM invoices;")
+            total_invoices = cursor.fetchone()['total_invoices']
+
+            cursor.execute("SELECT COUNT(*) AS total_invoices_due FROM invoices WHERE status = 'open';")
+            total_invoices_due = cursor.fetchone()['total_invoices_due']
+
+            cursor.execute("SELECT COUNT(DISTINCT c.id) AS customers_with_pending_invoices FROM customers c INNER JOIN invoices i ON c.email = i.custom_email WHERE i.status = 'open';")
+            customers_with_pending_invoices = cursor.fetchone()['customers_with_pending_invoices']
+            
+            connection.close()
+
+            return render_template('dashboard.html', 
+                                   total_amount_due=total_amount_due,
+                                   total_amount_received=total_amount_received,
+                                   total_invoices=total_invoices,
+                                   total_invoices_due=total_invoices_due,
+                                   customers_with_pending_invoices=customers_with_pending_invoices)
+
+
 
 # Invoices route
 @app.route('/invoices')

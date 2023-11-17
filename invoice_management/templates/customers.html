@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Customers</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
-                <li><a href="{{ url_for('products') }}">Products</a></li>
-                <li><a href="{{ url_for('customers') }}">Customers</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </nav>
-        <div>
+    <div id="header">
+        <div class="container">
+            <h1>Customers</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                    <li><a href="{{ url_for('products') }}">Products</a></li>
+                    <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class = "container">
+        <div class = "customer-buttons">
             <a href="{{ url_for('create_customer') }}" class="button">Create Customer</a>
             <a href="{{ url_for('manage_customers') }}" class="button">Manage Customers</a>
         </div>

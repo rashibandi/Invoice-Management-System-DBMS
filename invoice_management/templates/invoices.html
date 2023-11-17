@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
+    <div id = "header">
+        <div class="container">
+            <h1>Invoices</h1>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                    <li><a href="{{ url_for('products') }}">Products</a></li>
+                    <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
     <div class="container">
-        <h1>Invoices</h1>
-        <nav>
-            <ul>
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
-                <li><a href="{{ url_for('products') }}">Products</a></li>
-                <li><a href="{{ url_for('customers') }}">Customers</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </nav>
-        <div>
+        <div class = "invoices-buttons">
             <a href="{{ url_for('create_invoice') }}" class="button">Create Invoice</a>
             <a href="{{ url_for('manage_invoices') }}" class="button">Manage Invoices</a>
         </div>
