@@ -33,13 +33,21 @@
             <tbody>
                 {% for invoice in invoices %}
                     <tr>
-                        <td>{{ invoice[0] }}</td> <!-- Assuming the first column is the ID -->
-                        <td>{{ invoice[1] }}</td> <!-- Assuming the first column is the ID -->
-                        <td>{{ invoice[2] }}</td> <!-- Assuming the first column is the ID -->
-                        <td>{{ invoice[3] }}</td> <!-- Assuming the first column is the ID -->
-                        <td>{{ invoice[4] }}</td> <!-- Assuming the first column is the ID -->
-                        <td>{{ invoice[5] }}</td> <!-- Assuming the first column is the ID -->
-                        <td>{{ invoice[6] }}</td> <!-- Assuming the first column is the ID -->
+                        <td>{{ invoice[0] }}</td> 
+                        <td>{{ invoice[1] }}</td> 
+                        <td>{{ invoice[2] }}</td> 
+                        <td>{{ invoice[3] }}</td> 
+                        <td>{{ invoice[4] }}</td> 
+                        <td>{{ invoice[5] }}</td>  
+                       
+                        <td>{{ invoice[6] }}</td>
+                        <td>
+                            <form action="{{ url_for('update_status', invoice_id=invoice[0]) }}" method="post">
+                                <button type="submit">Update Status</button>
+                            </form>
+                        </td>
+                        </td>
+                                                    
 
                     </tr>
                 {% endfor %}

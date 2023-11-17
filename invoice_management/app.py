@@ -207,8 +207,8 @@ def generate_invoice():
             insert_query = "INSERT INTO invoices (invoice, custom_email, invoice_date, invoice_due_date, total, status) VALUES (%s, %s, %s, %s, %s, 'open')"
             cursor.execute(insert_query, (invoiceName, email, createDate, dueDate, totalAmount))
             connection.commit()
-            flash(f'Invoice {invoiceName} generated successfully!', 'success')  # Use 'success' category for flash message
-            return redirect(url_for('manage_invoices'))  # Redirect to the manage invoices page after successful generation        
+            flash(f'Invoice {invoiceName} generated successfully!', 'success') 
+            return redirect(url_for('manage_invoices'))          
         except Exception as e:
             connection.rollback()
             return jsonify({'error': f'Error generating invoice: {str(e)}'})
@@ -349,6 +349,32 @@ def existing_customer_details():
     
 
 
+# @app.route('/manage_invoices')
+# def manage_invoices():
+#     if 'username' not in session:
+#         return redirect(url_for('login'))
+
+#     # Add logic to fetch and display invoices from the database
+#     connection = check_db_connection()
+#     if connection:
+#         cursor = connection.cursor()
+#         query = "SELECT * FROM invoices"
+#         cursor.execute(query)
+#         invoices = cursor.fetchall()
+#         connection.close()
+
+#         # Check if invoices are being fetched properly
+#         print(invoices)  # Check the console/terminal for output
+
+    
+
+#         return render_template('manage_invoice.html', invoices=invoices)
+
+from flask import request, flash, redirect, render_template, url_for
+
+# Assuming you have your database connection and app setup correctly
+# Replace `check_db_connection()` with your actual database connection setup
+
 @app.route('/manage_invoices')
 def manage_invoices():
     if 'username' not in session:
@@ -367,6 +393,36 @@ def manage_invoices():
         print(invoices)  # Check the console/terminal for output
 
         return render_template('manage_invoice.html', invoices=invoices)
+    
+@app.route('/update_status/<int:invoice_id>', methods=['POST'])
+def update_status(invoice_id):
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    connection = check_db_connection()
+    if connection:
+        cursor = connection.cursor()
+        # Fetch the current status of the invoice
+        query_status = "SELECT status FROM invoices WHERE id = %s"
+        cursor.execute(query_status, (invoice_id,))
+        current_status = cursor.fetchone()[0]
+
+        # Toggle the status
+        new_status = 'paid' if current_status == 'open' else 'open'
+
+        # Update the status in the database
+        update_query = "UPDATE invoices SET status = %s WHERE id = %s"
+        cursor.execute(update_query, (new_status, invoice_id))
+        connection.commit()
+        connection.close()
+
+        # Optionally, you can add a flash message or any other feedback here
+        flash(f"Invoice ID {invoice_id} status changed to {new_status}")
+
+        return redirect(url_for('manage_invoices'))
+    return "Database connection error"
+
+
 
 # Products route
 @app.route('/products')
