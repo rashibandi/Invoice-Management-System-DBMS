@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import mysql.connector
 import jsonify
 
+
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
@@ -213,7 +214,6 @@ def create_invoice_main():
 
     return "Error: Database connection failed."
 
-
 @app.route('/generate_invoice', methods=['POST'])
 def generate_invoice():
     if 'username' not in session:
@@ -227,7 +227,10 @@ def generate_invoice():
     dueDate = data.get('dueDate')
     totalAmount = data.get('totalAmount')
 
-    # Perform operations to insert the invoice into the database
+    # Retrieve selected product, quantity, and product id
+    selected_products = data.get('selectedProducts')
+    print(selected_products)
+    # Perform operations to insert the invoice and associated products into the database
     connection = check_db_connection()
     if connection:
         cursor = connection.cursor()
@@ -237,58 +240,39 @@ def generate_invoice():
             insert_query = "INSERT INTO invoices (invoice, custom_email, invoice_date, invoice_due_date, total, status) VALUES (%s, %s, %s, %s, %s, 'open')"
             cursor.execute(insert_query, (invoiceName, email, createDate, dueDate, totalAmount))
             connection.commit()
-            flash(f'Invoice {invoiceName} generated successfully!', 'success') 
-            return redirect(url_for('manage_invoices'))          
-        except Exception as e:
-            connection.rollback()
-            return jsonify({'error': f'Error generating invoice: {str(e)}'})
-        finally:
+            # print(selected_products)
+            # Insert selected products into invoice_items table
+            for product in selected_products:
+                
+                arr = product['text'].split("-")
+                product_name = arr[0].strip()
+                product_price = arr[2].strip()
+                product_id = int(product['id'].strip())
+                quantity = int(arr[1].replace('Quantity:', '').strip())
+                print(product_name, product_id, product_price, quantity)
+                # product_name, quantity_price = product.split('- Quantity: ')
+                # product_id = int(data.get('products')[[item[1] for item in data.get('products')].index(product_name)][0])
+                # quantity = int(quantity_price.split(' - ')[0])
+
+                # Insert product into invoice_items table
+                insert_invoice_item_query = "INSERT INTO invoice_items (invoice, product_id, product_name, qty, purchaseDate) VALUES (%s, %s, %s, %s, %s)"
+                cursor.execute(insert_invoice_item_query, (invoiceName, product_id, product_name, quantity, createDate))
+                connection.commit()
+
+            flash(f'Invoice {invoiceName} generated successfully!', 'success')
             cursor.close()
             connection.close()
+            return redirect(url_for('manage_invoices'))          
 
+        except Exception as e:
+            connection.rollback()
+            cursor.close()
+            connection.close()
+            return jsonify({'error': f'Error generating invoice: {str(e)}'})
+    
     return jsonify({'error': 'Database connection failed'})
 
 
-# @app.route('/create_invoice/existing_customer', methods=['GET', 'POST'])
-# def create_invoice_existing_customer():
-#     db = check_db_connection()  # Get the database connection
-
-#     if db is None:
-#         return "Error: Database connection failed!"
-
-#     cursor = db.cursor()
-
-#     print("existing")
-#     customers = get_existing_customers()
-#     if request.method == 'POST':
-#         # Fetch data from the form
-#         invoiceName = request.form['invoiceName']
-#         selected_customer_id = request.form['existing_customer']
-#         try:
-#             cursor.execute("SELECT * FROM invoices WHERE invoice = %s", (invoiceName,))
-#             existing_invoice = cursor.fetchone()
-
-#             if existing_invoice:
-#                 flash("Invoice number already exists. Please use a different invoice number.", 'error')
-#                 return render_template('create_invoice_existing_customer.html')
-#             else:
-#                 # Fetch customer details based on the selected ID
-#                 cursor.execute("SELECT * FROM customers WHERE id = %s", (selected_customer_id,))
-#                 customer_data = cursor.fetchone()
-
-#                 session['invoiceName'] = invoiceName
-#                 session['email'] = customer_data[3]  # Assuming email is at index 3 in customer_data
-
-#                 return redirect(url_for('create_invoice_main'))
-#         except Exception as e:
-#             db.rollback()
-#             return f"Error: {e}"
-#         finally:
-#             cursor.close()
-#             db.close()
-
-#     print(customers)
-#     return render_template('create_invoice_existing_customer.html', customers=customers)
 
 @app.route('/create_invoice/existing_customer', methods=['GET', 'POST'])
 def create_invoice_existing_customer():
@@ -400,7 +384,6 @@ def existing_customer_details():
 
 #         return render_template('manage_invoice.html', invoices=invoices)
 
-from flask import request, flash, redirect, render_template, url_for
 
 # Assuming you have your database connection and app setup correctly
 # Replace `check_db_connection()` with your actual database connection setup
@@ -517,6 +500,42 @@ def manage_products():
 
     flash("Error connecting to the database.", 'error')
     return redirect(url_for('dashboard'))
+
+
+# Add the following route for deleting products
+@app.route('/delete_products', methods=['POST', 'GET'])
+def delete_products():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    connection = check_db_connection()
+    if connection:
+        cursor = connection.cursor()
+
+        try:
+            # Get the list of product IDs to be deleted
+            products_to_delete = request.form.getlist('delete_products[]')
+
+            if products_to_delete:
+                # Create a comma-separated string of product IDs for the SQL query
+                product_ids_str = ', '.join(map(str, products_to_delete))
+
+                # Delete selected products from the database
+                delete_query = f"DELETE FROM products WHERE product_id IN ({product_ids_str})"
+                cursor.execute(delete_query)
+                connection.commit()
+
+                flash(f"{len(products_to_delete)} product(s) deleted successfully!", 'success')
+            else:
+                flash("No products selected for deletion.", 'info')
+
+        except Exception as e:
+            connection.rollback()
+            flash(f"Error deleting products: {str(e)}", 'error')
+        finally:
+            connection.close()
+
+    return redirect(url_for('manage_products'))
 
 # Customers route
 @app.route('/customers')
