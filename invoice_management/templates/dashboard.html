@@ -24,12 +24,28 @@
         <div class="container">
             <h1 class="welcome-text">Welcome, <span id="username">{{ session['username'] }}</span></h1>
         </div>
-
-        <div>Total Amount Due: {{ total_amount_due }}</div>
-        <div>Total Amount Received: {{ total_amount_received }}</div>
-        <div>Total Invoices: {{ total_invoices }}</div>
-        <div>Total Invoices Due: {{ total_invoices_due }}</div>
-        <div>Customers with Pending Invoices: {{ customers_with_pending_invoices }}</div>
+        <div class="container">
+            <div class="metric-block">
+                <div class = "metric-heading">Total Amount Due: </div>
+                    <div class = "metric-content">{{ total_amount_due }}</div>
+            </div>
+            <div class="metric-block">   
+                <div class = "metric-heading">Total Amount Received:</div>
+                    <div class = "metric-content">{{ total_amount_received }}</div>
+            </div>
+            <div class="metric-block">
+                <div class = "metric-heading">Total Invoices:</div>
+                    <div class = "metric-content">{{ total_invoices }}</div>
+            </div>
+            <div class="metric-block">
+                <div class = "metric-heading">Total Invoices Due:</div>
+                    <div class = "metric-content"> {{ total_invoices_due }}</div>
+            </div>
+            <div class="metric-block">
+                <div class="metric-heading"> Customers with Pending Invoices:</div>
+                    <div class = "metric-content"> {{ customers_with_pending_invoices }}</div>
+            </div>
+        </div>
 
     </div>
     

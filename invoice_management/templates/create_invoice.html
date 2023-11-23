@@ -1,23 +1,30 @@
-<!-- create_invoice.html -->
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Create Product</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Invoice</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
 <body>
-    <div class="container">
-        <h1>Create Invoice</h1>
-        <form method="post" action="{{ url_for('create_invoice') }}">
-            <label for="customer_type">Select Customer Type:</label>
-            <select id="customer_type" name="customer_type" required>
-                <option value="new">New Customer</option>
-                <option value="existing">Existing Customer</option>
-            </select><br>
-            <button type="submit">Next</button>
-        </form>
+
+<div class="container">
+    <h1>Create Invoice</h1>
+
+    <div class="form-container">
+        <div class="form-box">
+            <form method="post" action="{{ url_for('create_invoice') }}">
+                <label for="customer_type">Select Customer Type:</label>
+                <select id="customer_type" name="customer_type" required>
+                    <option value="new">New Customer</option>
+                    <option value="existing">Existing Customer</option>
+                </select><br>
+                <button type="submit">Next</button>
+            </form>
+        </div>
     </div>
+</div>
+
 </body>
 </html>
+

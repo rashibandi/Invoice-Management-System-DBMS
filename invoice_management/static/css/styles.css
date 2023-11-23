@@ -1,84 +1,189 @@
-/* 
-*{
-    margin:0;
-    padding:0;
-    font-family: 'Poppins', sans-serif;
-    box-sizing: border-box;
-}  */
-/* #header{
-    width: 100%;
-    height:100vh;
-    background-size: cover;
-    background-position: center;
-} */
+/* Global Styles */
 
-/* body{
-    background: black;
-    color:white;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px 10%;
-    height: calc(100vh - 60px);
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 0;
 }
 
-.welcome-text {
-    color: white;
-    font-size: 24px;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid white;
-    animation: typing 2s steps(40) infinite;
+h1, h2 {
+    color: #ffffff;
 }
 
-@keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 20%;
-    }
-}
-
-nav{
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: black; 
-    z-index: 1000; 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    height: 60px;
-}
-
-nav ul li{
-    display: inline-block;
+ul {
     list-style: none;
-    margin: 10px 20px;
+    padding: 0;
 }
 
-nav ul li a{
-    color: white;
+li {
+    margin-bottom: 5px;
+}
+
+/* Header Styles */
+
+#header {
+    background-color: #000000;
+    padding: 20px 0;
+    text-align: center;
+}
+
+#header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+nav ul {
+    padding: 0;
+    display: flex;
+    justify-content: flex-end; /* Align the navbar to the right */
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #ffffff;
     text-decoration: none;
-    font-size:18px;
+    font-size: 20px; /* Increase navbar link font size */
     position: relative;
 }
 
-nav ul li a::after{
+nav ul li a:hover {
+    text-decoration: none;
+}
+
+nav ul li a::after {
     content: '';
     width: 0;
-    height:3px;
-    background: #f6316d;
+    height: 3px;
+    background: #4CAF50;
     position: absolute;
     left: 0;
     bottom: -6px;
     transition: 0.5s;
 }
-nav ul li a:hover::after{
-    width:100%;
-} */
+
+nav ul li a:hover::after {
+    width: 100%;
+}
+
+/* Form Styles */
+
+/* ... (previous styles) ... */
+
+/* Table Styles */
+
+/* ... (previous styles) ... */
+
+/* Dashboard Styles */
+
+/* Background */
+body {
+    background-image: url('path/to/your/image.jpg'); /* Replace with your image path */
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: #ffffff;
+}
+
+/* Metric Blocks as Sliders */
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.metric-block {
+    width: 200px;
+    height: 200px;
+    background-color: #333333;
+    border-radius: 10px;
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.metric-block:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.metric-heading {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.metric-content {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Dark Theme for Dashboard */
+
+/* Username Animation */
+#username {
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 30px;
+    transition: border-color 0.3s ease;
+}
+
+
+/* Invoices Page Styles */
+
+.container.invoices-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Vertically center within the viewport height */
+}
+
+.invoices-buttons {
+    text-align: center;
+}
+
+.invoices-buttons .button {
+    display: block;
+    width: 200px;
+    height: 60px;
+    background-color: #4CAF50; /* Green */
+    color: #ffffff; /* White */
+    text-decoration: none;
+    line-height: 60px;
+    margin: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.invoices-buttons .button:hover {
+    background-color: #333333; /* Black */
+    color: #ffffff; /* White */
+}
+
+/* Adjustments for smaller screens if needed */
+@media screen and (max-width: 768px) {
+    .invoices-buttons .button {
+        width: 160px;
+        height: 50px;
+        font-size: 14px;
+    }
+}
+
+
+
