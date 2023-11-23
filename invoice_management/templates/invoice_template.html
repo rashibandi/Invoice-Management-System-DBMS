@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+    <style>
+        /* Your CSS styles for the invoice template */
+        /* ... */
+    </style>
+</head>
+<body>
+    <h1>Invoice</h1>
+
+    <h2>Invoice Details</h2>
+    <p>Invoice ID: {{ invoice.invoice_id }}</p>
+    <!-- Display other invoice details here -->
+
+    <h2>Items</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <!-- Add other item details as needed -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.product_name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <!-- Display other item details here -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

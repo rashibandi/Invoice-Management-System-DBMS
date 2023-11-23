@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,8 +7,18 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>Manage Invoices</h1>
+    <div class="manage-invoice-container">
+        <h1 class="manage-invoice-h1">Manage Invoices</h1>
+        <nav class="manage-invocie-nav">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -18,7 +28,9 @@
                     {% endfor %}
                 </ul>
             {% endif %}
-        {% endwith %}        <table>
+        {% endwith %} 
+        <div class="manage-invocie-containers">      
+        <table class="manage-invocie-table">
             <thead>
                 <tr>
                     <th>Invoice ID</th>
@@ -28,6 +40,7 @@
                     <th>Due Date</th>
                     <th>Total Amount</th>
                     <th>Status</th>
+                    <th>To Update</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,7 +56,7 @@
                         <td>{{ invoice[6] }}</td>
                         <td>
                             <form action="{{ url_for('update_status', invoice_id=invoice[0]) }}" method="post">
-                                <button type="submit">Update Status</button>
+                                <button class="manage-invocie-button" type="submit">Update Status</button>
                             </form>
                         </td>
                         </td>
@@ -53,59 +66,85 @@
                 {% endfor %}
             </tbody>
         </table>
-    </div>
+        </div> 
+    </body>
 </body>
 </html>
+ -->
 
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Products</title>
+    <title>Manage Invoices</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
+
 <body>
-    <div id="header">
-        <div class="container">
-            <h1>Manage Products</h1>
-            <nav>
-                <ul>
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
-                    <li><a href="{{ url_for('products') }}">Products</a></li>
-                    <li><a href="{{ url_for('customers') }}">Customers</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
+    <div class="manage-invoice-container">
+        <h1 class="manage-invoice-h1">Manage Invoices</h1>
+        <nav class="manage-invocie-nav">
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
     </div>
-    <div class="container">
-        <form action="{{ url_for('delete_products') }}" method="post" id="deleteForm">
-            <div class="product-information">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Product ID</th>
-                            <th>Product Name</th>
-                            <th>Product Price</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for product in products %}
-                            <tr>
-                                <td>{{ product[0] }}</td>
-                                <td>{{ product[1] }}</td>
-                                <td>{{ product[2] }}</td>
-                                <td><input type="checkbox" name="delete_products[]" value="{{ product[0] }}"></td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            <button type="submit" class="button" onclick="return confirm('Are you sure you want to delete selected products?')">Delete Product</button>
-        </form>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div class="manage-invocie-containers">
+        <table class="manage-invocie-table">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Invoice Number</th>
+                    <th>Customer Email ID</th>
+                    <th>Generated On</th>
+                    <th>Due Date</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>To Update</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for invoice in invoices %}
+                    <tr>
+                        <td>{{ invoice[0] }}</td>
+                        <td>{{ invoice[1] }}</td>
+                        <td>{{ invoice[2] }}</td>
+                        <td>{{ invoice[3] }}</td>
+                        <td>{{ invoice[4] }}</td>
+                        <td>{{ invoice[5] }}</td>
+
+                        <td>{{ invoice[6] }}</td>
+                        <td>
+                            <form action="{{ url_for('update_status', invoice_id=invoice[0]) }}" method="post">
+                                <button class="manage-invocie-button" type="submit">Update Status</button>
+                            </form>
+                        </td>
+                        
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </body>
-</html> -->
+
+</html>
+ 
+    
+  

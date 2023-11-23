@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session, flash
 import mysql.connector
 import jsonify
+from datetime import datetime, date, timedelta
 
 
 app = Flask(__name__)
@@ -8,7 +9,7 @@ app.secret_key = 'your_secret_key'
 
 # MySQL Configuration
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+app.config['MYSQL_DATABASE_PASSWORD'] = '03feb2003'
 app.config['MYSQL_DATABASE_DB'] = 'invoiceManagement'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
@@ -78,7 +79,7 @@ def dashboard():
         if connection:
             cursor = connection.cursor(dictionary=True)
             
-            # Execute the queries
+            # Execute the queries for other metrics
             cursor.execute("SELECT SUM(total) AS total_amount_due FROM invoices WHERE status = 'open';")
             total_amount_due = cursor.fetchone()['total_amount_due']
 
@@ -93,7 +94,20 @@ def dashboard():
 
             cursor.execute("SELECT COUNT(DISTINCT c.id) AS customers_with_pending_invoices FROM customers c INNER JOIN invoices i ON c.email = i.custom_email WHERE i.status = 'open';")
             customers_with_pending_invoices = cursor.fetchone()['customers_with_pending_invoices']
-            
+
+            # Fetch the product of the month
+            cursor.execute("""
+                           SELECT product_name, COALESCE(SUM(qty), 0) as total_quantity_sold
+                            FROM invoice_items
+                            WHERE YEAR(purchaseDate) = YEAR(CURDATE())
+                            AND MONTH(purchaseDate) = MONTH(CURDATE())
+                            GROUP BY product_name
+                            ORDER BY total_quantity_sold DESC
+                            LIMIT 1;
+
+                        """)
+            product_of_the_month = cursor.fetchone()
+
             connection.close()
 
             return render_template('dashboard.html', 
@@ -101,10 +115,8 @@ def dashboard():
                                    total_amount_received=total_amount_received,
                                    total_invoices=total_invoices,
                                    total_invoices_due=total_invoices_due,
-                                   customers_with_pending_invoices=customers_with_pending_invoices)
-
-
-
+                                   customers_with_pending_invoices=customers_with_pending_invoices,
+                                   product_of_the_month=product_of_the_month)
 # Invoices route
 @app.route('/invoices')
 def invoices():

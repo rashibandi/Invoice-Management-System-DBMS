@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div id = "header">
-        <div class="container">
-            <h1>Products</h1>
-            <nav>
+    <div class = "products-header">
+        <div class="products-container">
+            <h1 class="products-h1">Products</h1>
+            <nav class="products-nav">
                 <ul>
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
@@ -21,9 +21,11 @@
             </nav>
         </div>
     </div>
-    <div class ="container">
-        <a href="{{ url_for('create_product') }}" class="button">Create Product</a>
-        <a href="{{ url_for('manage_products') }}" class="button">Manage Products</a>
+    <div class ="products-containers">
+        <div class="products-buttons">
+        <a href="{{ url_for('create_product') }}" class="products-button">Create Product</a>
+        <a href="{{ url_for('manage_products') }}" class="products-button">Manage Products</a>
+        </div>
     </div>
 </body>
 </html>

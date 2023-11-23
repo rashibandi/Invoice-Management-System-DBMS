@@ -6,20 +6,29 @@
     <title>Create Invoice</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body>
+<body class="create-invoice-body">
 
-<div class="container">
-    <h1>Create Invoice</h1>
+<div class="create-invoice-container">
+    <h1 class="create-invocie-body">Create Invoice</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+            <li><a href="{{ url_for('products') }}">Products</a></li>
+            <li><a href="{{ url_for('customers') }}">Customers</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
 
-    <div class="form-container">
-        <div class="form-box">
-            <form method="post" action="{{ url_for('create_invoice') }}">
-                <label for="customer_type">Select Customer Type:</label>
-                <select id="customer_type" name="customer_type" required>
-                    <option value="new">New Customer</option>
-                    <option value="existing">Existing Customer</option>
+    <div class="create-invoice-form-containers">
+        <div class="create-invoice-form-box">
+            <form class="create-invoice-form" method="post" action="{{ url_for('create_invoice') }}">
+                <label class ="create-invoice-label" for="customer_type">Select Customer Type:</label>
+                <select class="create-invocie-select" id="customer_type" name="customer_type" required>
+                    <option class="create-invocie-option" value="new">New Customer</option>
+                    <option class="create-invocie-option" value="existing">Existing Customer</option>
                 </select><br>
-                <button type="submit">Next</button>
+                <button class ="create-invocie-button" type="submit">Next</button>
             </form>
         </div>
     </div>

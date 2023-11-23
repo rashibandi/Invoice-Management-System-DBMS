@@ -10,6 +10,15 @@
 <body>
     <div class="container">
         <h1>Create Invoice for Existing Customer</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
         <form method="post" action="{{ url_for('create_invoice_existing_customer') }}">
             <label for="existing_customer">Select Existing Customer:</label>
             <select id="existing_customer" name="existing_customer" onchange="getCustomerDetails(this.value)" required>
@@ -49,7 +58,6 @@
     
             let customerDetails = document.getElementById('customerDetails');
             customerDetails.innerHTML = `
-                <p>Email: ${email}</p>
                 <!-- Add more customer details as needed -->
             `;
         }
