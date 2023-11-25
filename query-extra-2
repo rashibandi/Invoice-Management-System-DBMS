@@ -1,0 +1,52 @@
+DELIMITER //
+
+CREATE PROCEDURE ProcessCustomers()
+BEGIN
+    DECLARE done INT DEFAULT FALSE;
+    DECLARE customer_name VARCHAR(255);
+    DECLARE customer_email VARCHAR(255);
+
+    DECLARE cur CURSOR FOR 
+        SELECT name, email FROM customers;
+        
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO customer_name, customer_email;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+
+        SET @query = CONCAT('
+            SELECT 
+                c.name AS customer_name,
+                c.email AS customer_email,
+                p.product_name AS favorite_product,
+                SUM(i_items.qty) AS total_quantity_bought,
+                COUNT(*) AS frequency_of_purchase
+            FROM
+                customers c
+            JOIN
+                invoices i ON c.email = i.custom_email
+            JOIN
+                invoice_items i_items ON i.invoice = i_items.invoice
+            JOIN
+                products p ON i_items.product_id = p.product_id
+            WHERE
+                c.name = \'', customer_name, '\' AND c.email = \'', customer_email, '\'
+            GROUP BY
+                p.product_id
+            ORDER BY
+                total_quantity_bought DESC, frequency_of_purchase DESC;
+        ');
+
+        PREPARE stmt FROM @query;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+    END LOOP;
+
+    CLOSE cur;
+END //
+
+DELIMITER ;
+
