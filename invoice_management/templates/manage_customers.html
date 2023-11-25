@@ -7,18 +7,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="manage-customers-container">
-        <h1 class="manage-customer-h1">Manage Customers</h1>
-        <nav class="manage-cuatomer-nav">
-            <ul>
-                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
-                <li><a href="{{ url_for('products') }}">Products</a></li>
-                <li><a href="{{ url_for('customers') }}">Customers</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            </ul>
-        </nav>
-        <table class="manage-customers-table">
+    <div class="container">
+        <h1>Manage Customers</h1>
+        <table>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -45,4 +36,3 @@
     </div>
 </body>
 </html>
-

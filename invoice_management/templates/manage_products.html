@@ -55,10 +55,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="manage-products-header">
-        <div class="manage-produts-container">
-            <h1 class="manage-products-h1">Manage Products</h1>
-            <nav class="manage-produts-nav">
+    <div id="header">
+        <div class="container">
+            <h1>Manage Products</h1>
+            <nav>
                 <ul>
                     <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                     <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
@@ -69,9 +69,9 @@
             </nav>
         </div>
     </div>
-    <div class="manage-products-container">
-        <form class="manage-products-form" action="{{ url_for('delete_products') }}" method="post" id="deleteForm">
-            <div class="manage-product-information">
+    <div class="container">
+        <form action="{{ url_for('delete_products') }}" method="post" id="deleteForm">
+            <div class="product-information">
                 <table>
                     <thead>
                         <tr>
@@ -87,13 +87,13 @@
                                 <td>{{ product[0] }}</td>
                                 <td>{{ product[1] }}</td>
                                 <td>{{ product[2] }}</td>
-                                <td><input class="manage-products-input" type="checkbox" name="delete_products[]" value="{{ product[0] }}"></td>
+                                <td><input type="checkbox" name="delete_products[]" value="{{ product[0] }}"></td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
-            <button class="manage-products-button" type="submit" class="manage-produts-button" onclick="return confirm('Are you sure you want to delete selected products?')">Delete Product</button>
+            <button type="submit" class="button" onclick="return confirm('Are you sure you want to delete selected products?')">Delete Product</button>
         </form>
     </div>
 </body>

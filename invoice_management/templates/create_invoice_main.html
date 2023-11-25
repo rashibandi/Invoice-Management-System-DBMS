@@ -6,40 +6,30 @@
     <title>Create Invoice</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body class="create-invocie-main-body">
-    <h1 class="create-invoice-main-h1">Create Invoice</h1>
-    <nav class="create-invoice-main-nav">
-        <ul>
-            <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-            <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
-            <li><a href="{{ url_for('products') }}">Products</a></li>
-            <li><a href="{{ url_for('customers') }}">Customers</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-        </ul>
-    </nav>
-    <form class="create-invoice-main-form">
-        <label class="create-invoice-main-label" for="invoiceName">Invoice Name:</label>
-        <input class="create-invoice-main-input" type="text" id="invoiceName" name="invoiceName" value="{{ session['invoiceName'] }}" readonly><br>
-        <label class="create-invoice-main-label" for="invoiceName">Email ID:</label>
-        <input class="create-invoice-main-input" type="text" id="email" name="email" value="{{ session['email'] }}" readonly><br>
-        <label class="create-invoice-main-label" for="create-date">Invoice Created On:</label>
-        <input class="create-invoice-main-input" type="date" id="create-date" name="create-date">
-        <label class="create-invoice-main-label" for="due-date">Due date:</label>
-        <input class="create-invoice-main-input" type="date" id="due-date" name="due-date">
-        <label class="create-invoice-main-label" for="product">Select Product:</label>
-        <select class="create-invoice-main-select" id="product" name="product">
+<body>
+    <form>
+        <label for="invoiceName">Invoice Name:</label>
+        <input type="text" id="invoiceName" name="invoiceName" value="{{ session['invoiceName'] }}" readonly><br>
+        <label for="email">Email ID:</label>
+        <input type="text" id="email" name="email" value="{{ session['email'] }}" readonly><br>
+        <label for="create-date">Invoice Created On:</label>
+        <input type="date" id="create-date" name="create-date">
+        <label for="due-date">Due date:</label>
+        <input type="date" id="due-date" name="due-date">
+        <label for="product">Select Product:</label>
+        <select id="product" name="product">
             {% for product in products %}
                 <option value="{{ product[0] }}" data-price="{{ product[2] }}" data-name="{{product[1]}}">{{ product[1] }}</option>
             {% endfor %}
         </select>
-        <label class="create-invoice-main-label" for="quantity">Quantity:</label>
-        <input class="create-invoice-main-input" type="number" id="quantity" name="quantity" min="1" value="1">
-        <button class="create-invoice-main-button"type="button" onclick="addToSelected()">Add</button>
-        <h2 class="create-invoice-main-h2">Selected Products:</h2>
-        <select class="create-invoice-main-select" id="selected-products" multiple></select>
-        <h2 class="create-invoice-main-h2">Total:</h2>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" min="1" value="1">
+        <button type="button" onclick="addToSelected()">Add</button>
+        <h2>Selected Products:</h2>
+        <select id="selected-products" multiple></select>
+        <h2>Total:</h2>
         <span id="total">0.00</span>
-        <button class="create-invoice-main-button" type="button" onclick="generateInvoice()">Generate Invoice</button>
+        <button type="button" onclick="generateInvoice()">Generate Invoice</button>
     </form>
 
     <script>

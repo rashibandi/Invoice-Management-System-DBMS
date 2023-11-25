@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response, send_file
 import mysql.connector
 import jsonify
-from datetime import datetime, date, timedelta
+import pdfkit
+import os
+from flask import jsonify
+
+
 
 
 app = Flask(__name__)
@@ -9,7 +13,7 @@ app.secret_key = 'your_secret_key'
 
 # MySQL Configuration
 app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '03feb2003'
+app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'invoiceManagement'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
@@ -23,7 +27,7 @@ def check_db_connection():
             database=app.config['MYSQL_DATABASE_DB'],
             auth_plugin='mysql_native_password'
         )
-        if connection.is_connected():
+        if connection.is_connected():   
             print("Connected")
             return connection
         else:
@@ -79,7 +83,7 @@ def dashboard():
         if connection:
             cursor = connection.cursor(dictionary=True)
             
-            # Execute the queries for other metrics
+            # Execute the queries
             cursor.execute("SELECT SUM(total) AS total_amount_due FROM invoices WHERE status = 'open';")
             total_amount_due = cursor.fetchone()['total_amount_due']
 
@@ -94,20 +98,7 @@ def dashboard():
 
             cursor.execute("SELECT COUNT(DISTINCT c.id) AS customers_with_pending_invoices FROM customers c INNER JOIN invoices i ON c.email = i.custom_email WHERE i.status = 'open';")
             customers_with_pending_invoices = cursor.fetchone()['customers_with_pending_invoices']
-
-            # Fetch the product of the month
-            cursor.execute("""
-                           SELECT product_name, COALESCE(SUM(qty), 0) as total_quantity_sold
-                            FROM invoice_items
-                            WHERE YEAR(purchaseDate) = YEAR(CURDATE())
-                            AND MONTH(purchaseDate) = MONTH(CURDATE())
-                            GROUP BY product_name
-                            ORDER BY total_quantity_sold DESC
-                            LIMIT 1;
-
-                        """)
-            product_of_the_month = cursor.fetchone()
-
+            
             connection.close()
 
             return render_template('dashboard.html', 
@@ -115,8 +106,10 @@ def dashboard():
                                    total_amount_received=total_amount_received,
                                    total_invoices=total_invoices,
                                    total_invoices_due=total_invoices_due,
-                                   customers_with_pending_invoices=customers_with_pending_invoices,
-                                   product_of_the_month=product_of_the_month)
+                                   customers_with_pending_invoices=customers_with_pending_invoices)
+
+
+
 # Invoices route
 @app.route('/invoices')
 def invoices():
@@ -595,6 +588,71 @@ def manage_customers():
         connection.close()
 
         return render_template('manage_customers.html', customers=customers)
+    
+def fetch_invoice_details(invoice_id):
+    connection = check_db_connection()
+    if connection:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM invoices WHERE invoice = %s", (invoice_id,))
+        invoice_details = cursor.fetchone()
+
+        connection.close()
+        return invoice_details
+    return None
+
+# Fetch Invoice Items from Database
+def fetch_invoice_items(invoice_id):
+    connection = check_db_connection()
+    if connection:
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM invoice_items WHERE invoice = %s", (invoice_id,))
+        invoice_items = cursor.fetchall()
+        print(invoice_items)
+        connection.close()
+        return invoice_items
+    return None
+
+# Generate Invoice PDF
+def generate_invoice_pdf(invoice_id):
+    invoice_details = fetch_invoice_details(invoice_id)
+    items = fetch_invoice_items(invoice_id)
+
+    if not invoice_details or not items:
+        return None  # Handle the case where fetching fails
+
+    rendered = render_template('invoice_template.html', invoice=invoice_details, items=items)
+
+    try:
+        pdf = pdfkit.from_string(rendered, False)
+        pdf_filename = f"invoice_{invoice_id}.pdf"
+        with open(pdf_filename, 'wb') as f:
+            f.write(pdf)
+        return pdf_filename
+    except Exception as e:
+        print(f"Failed to generate PDF: {e} in main generate_invoice_pdf")
+        return None
+
+
+
+@app.route('/generate_invoice_pdf_endpoint/<int:invoice_id>', methods=['GET'])
+def generate_invoice_pdf_endpoint(invoice_id):
+    # Logic to generate the PDF file for the given invoice_id
+    # Assume `generate_pdf(invoice_id)` is a function that generates the PDF file path
+
+    pdf_path = generate_invoice_pdf(invoice_id)  # Replace with your PDF generation logic
+
+    if pdf_path:
+        try:
+            response = make_response(send_file(pdf_path, as_attachment=True))
+            response.headers['Content-Disposition'] = f'attachment; filename=invoice_{invoice_id}.pdf'
+            # Optionally, remove the generated PDF after sending
+            # os.remove(pdf_path)
+            return response
+        except Exception as e:
+            print(f"Failed to send PDF: {e}")
+            return jsonify({'error': 'Failed to send PDF'})
+    else:
+        return jsonify({'error': 'Failed to generate PDF in endpoint'})
 
 
 
