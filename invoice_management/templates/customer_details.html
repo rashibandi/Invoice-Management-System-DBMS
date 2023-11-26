@@ -10,6 +10,15 @@
 <body>
     <div class="container">
         <h1>Customer Details</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
         <table>
             <thead>
                 <tr>

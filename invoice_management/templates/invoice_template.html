@@ -3,35 +3,75 @@
 <head>
     <title>Invoice</title>
     <style>
-        /* Your CSS styles for the invoice template */
-        /* ... */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin-top: 40px;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+        p {
+            margin: 5px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f5f5f5;
+            color: #333;
+            font-weight: bold;
+        }
+        .total {
+            font-size: 1.2em;
+            margin-top: 20px;
+            text-align: right;
+            color: #28a745;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <h1>Invoice</h1>
 
     <h2>Invoice Details</h2>
-    <p>Invoice ID: {{ invoice.invoice_id }}</p>
-    <!-- Display other invoice details here -->
+    <p>Invoice ID: {{ invoice.invoice }}</p>
+    <p>Customer Email ID: {{invoice.custom_email}}</p>
+    <p>Invoice Generated On: {{invoice.invoice_date}}</p>
+    <p>Invoice Due Date: <b>{{invoice.invoice_due_date}}</b></p>
 
     <h2>Items</h2>
     <table border="1">
         <thead>
             <tr>
-                <th>Product</th>
+                <th>Products</th>
                 <th>Quantity</th>
-                <!-- Add other item details as needed -->
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
                 <tr>
                     <td>{{ item.product_name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <!-- Display other item details here -->
+                    <td>{{ item.qty }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
-</body>
-</html>
+    <p class="total">Total Amount Due: <span style="color: #dc3545;">{{ invoice.total }}</span></p></html>

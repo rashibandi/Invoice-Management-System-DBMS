@@ -1,6 +1,31 @@
 SELECT 
     c.name AS customer_name,
     c.email AS customer_email,
+    p.product_name AS favorite_product,
+    SUM(i_items.qty) AS total_quantity_bought,
+    COUNT(*) AS frequency_of_purchase
+FROM
+    customers c
+JOIN
+    invoices i ON c.email = i.custom_email
+JOIN
+    invoice_items i_items ON i.invoice = i_items.invoice
+JOIN
+    products p ON i_items.product_id = p.product_id
+WHERE
+    c.name = (SELECT name FROM customers) AND c.email = (SELECT email FROM customers)
+GROUP BY
+    p.product_id
+ORDER BY
+    total_quantity_bought DESC, frequency_of_purchase DESC
+LIMIT 1;
+
+
+
+
+SELECT 
+    c.name AS customer_name,
+    c.email AS customer_email,
     p.product_name AS product,
     SUM(i_items.qty) AS total_quantity_bought,
     COUNT(*) AS frequency_of_purchase

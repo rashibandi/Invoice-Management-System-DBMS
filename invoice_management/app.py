@@ -1,23 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, session, flash, make_response, send_file
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file, make_response
 import mysql.connector
 import jsonify
+from datetime import datetime, date, timedelta
 import pdfkit
-import os
-from flask import jsonify
-
-
 
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-# MySQL Configuration
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
 app.config['MYSQL_DATABASE_DB'] = 'invoiceManagement'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
-# Function to check MySQL connection
 def check_db_connection():
     try:
         connection = mysql.connector.connect(
@@ -27,7 +22,7 @@ def check_db_connection():
             database=app.config['MYSQL_DATABASE_DB'],
             auth_plugin='mysql_native_password'
         )
-        if connection.is_connected():   
+        if connection.is_connected():
             print("Connected")
             return connection
         else:
@@ -36,7 +31,6 @@ def check_db_connection():
         print(f"Error: {str(e)}")
         return None
 
-# Function to validate login (replace with your actual user authentication logic)
 def validate_login(username, password):
     connection = check_db_connection()
     if connection:
@@ -83,7 +77,7 @@ def dashboard():
         if connection:
             cursor = connection.cursor(dictionary=True)
             
-            # Execute the queries
+            # Execute the queries for other metrics
             cursor.execute("SELECT SUM(total) AS total_amount_due FROM invoices WHERE status = 'open';")
             total_amount_due = cursor.fetchone()['total_amount_due']
 
@@ -98,7 +92,21 @@ def dashboard():
 
             cursor.execute("SELECT COUNT(DISTINCT c.id) AS customers_with_pending_invoices FROM customers c INNER JOIN invoices i ON c.email = i.custom_email WHERE i.status = 'open';")
             customers_with_pending_invoices = cursor.fetchone()['customers_with_pending_invoices']
-            
+
+            # Fetch the product of the month
+            cursor.execute("""
+                           SELECT product_name, COALESCE(SUM(qty), 0) AS total_quantity_sold
+                            FROM invoice_items
+                            WHERE (YEAR(purchaseDate), MONTH(purchaseDate)) = 
+                                (SELECT YEAR(CURDATE()), MONTH(CURDATE()))
+                            GROUP BY product_name
+                            ORDER BY total_quantity_sold DESC
+                            LIMIT 1;
+
+
+                        """)
+            product_of_the_month = cursor.fetchone()
+
             connection.close()
 
             return render_template('dashboard.html', 
@@ -106,17 +114,14 @@ def dashboard():
                                    total_amount_received=total_amount_received,
                                    total_invoices=total_invoices,
                                    total_invoices_due=total_invoices_due,
-                                   customers_with_pending_invoices=customers_with_pending_invoices)
-
-
-
+                                   customers_with_pending_invoices=customers_with_pending_invoices,
+                                   product_of_the_month=product_of_the_month)
 # Invoices route
 @app.route('/invoices')
 def invoices():
     if 'username' not in session:
         return redirect(url_for('login'))
 
-    # Add logic to fetch and display invoices from the database
     connection = check_db_connection()
     if connection:
         cursor = connection.cursor()
@@ -138,11 +143,9 @@ def create_invoice():
         customer_type = request.form.get('customer_type')
 
         if customer_type == 'new':
-            # Logic for creating invoice for a new customer
             return redirect(url_for('create_invoice_new_customer'))
 
         elif customer_type == 'existing':
-            # Logic for creating invoice for an existing customer
             return redirect(url_for('create_invoice_existing_customer'))
 
     return render_template('create_invoice.html')
@@ -224,7 +227,6 @@ def generate_invoice():
     if 'username' not in session:
         return jsonify({'error': 'Not logged in'})
 
-    # Retrieve data sent from the front-end
     data = request.json
     invoiceName = data.get('invoiceName')
     email = data.get('email')
@@ -588,14 +590,15 @@ def manage_customers():
         connection.close()
 
         return render_template('manage_customers.html', customers=customers)
-    
+
+
 def fetch_invoice_details(invoice_id):
     connection = check_db_connection()
     if connection:
         cursor = connection.cursor(dictionary=True)
         cursor.execute("SELECT * FROM invoices WHERE invoice = %s", (invoice_id,))
         invoice_details = cursor.fetchone()
-
+        print(invoice_details)
         connection.close()
         return invoice_details
     return None
@@ -619,7 +622,7 @@ def generate_invoice_pdf(invoice_id):
 
     if not invoice_details or not items:
         return None  # Handle the case where fetching fails
-
+    print("hello", invoice_details, items)
     rendered = render_template('invoice_template.html', invoice=invoice_details, items=items)
 
     try:
@@ -634,7 +637,7 @@ def generate_invoice_pdf(invoice_id):
 
 
 
-@app.route('/generate_invoice_pdf_endpoint/<int:invoice_id>', methods=['GET'])
+@app.route('/generate_invoice_pdf_endpoint/<invoice_id>', methods=['GET'])
 def generate_invoice_pdf_endpoint(invoice_id):
     # Logic to generate the PDF file for the given invoice_id
     # Assume `generate_pdf(invoice_id)` is a function that generates the PDF file path
@@ -653,6 +656,7 @@ def generate_invoice_pdf_endpoint(invoice_id):
             return jsonify({'error': 'Failed to send PDF'})
     else:
         return jsonify({'error': 'Failed to generate PDF in endpoint'})
+
 
 
 

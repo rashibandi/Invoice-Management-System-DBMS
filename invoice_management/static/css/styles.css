@@ -6,13 +6,68 @@ body {
     color: #ffffff;
     margin: 0;
     padding: 0;
+
 }
+
 
 .container {
     width: 80%;
     margin: 0 auto;
     padding: 20px 0;
 }
+
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.login-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-div {
+    background-color: black;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+.login-h1 {
+    color: white;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+}
+
+input {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: lightslategray;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #333;
+}
+
+
 
 h1, h2 {
     color: #ffffff;
@@ -44,6 +99,7 @@ nav ul {
     padding: 0;
     display: flex;
     justify-content: flex-end; /* Align the navbar to the right */
+    align-items:start;
 }
 
 nav ul li {
@@ -185,19 +241,203 @@ body {
     }
 }
 
-/* Products Buttons */
-.products-containers.products-buttons {
+#create-invoice {
+    width:100%;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Vertically center within the viewport height */
+    /* align-items: center;
+    justify-content: center; */
+    /* height: 100vh; */
+    margin: 0;
 }
 
-.products-buttons {
+.create-invoice-form-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.create-invoice-form-box {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style for form labels */
+.create-invoice-form-box label {
+    color: wh;
+    margin-bottom: 8px;
+}
+
+/* Style for form inputs */
+.create-invoice-form-box input {
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid white;
+    border-radius: 4px;
+    color:red;
+}
+
+
+
+/* Style for submit button */
+.create-invoice-form-box button {
+    padding: 10px 15px;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover effect for the submit button */
+.create-invoice-form-box button:hover {
+    background-color: #45a049;
+}
+
+.customers-header {
+    background-color: black;
+    padding: 20px 0;
+}
+
+.customers-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.customers-h1 {
+    margin: 0;
+}
+
+.customers-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.customers-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.customers-nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.customers-containers {
+    padding: 20px 0;
+    text-align: center; /* Center-align the content */
+}
+
+.customer-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    display: inline-block;
+}
+
+.customer-button:hover {
+    background-color: #006400; /* Dark green on hover */
+}
+
+.manage-customers-container {
+    background-color: black;
+    padding: 20px;
+}
+
+.manage-customer-h1 {
+    margin: 0;
+}
+
+.manage-cuatomer-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.manage-cuatomer-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.manage-cuatomer-nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.manage-customers-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-customers-table th, .manage-customers-table td {
+    border: 1px solid #fff;
+    padding: 8px;
+    text-align: left;
+}
+
+.manage-customers-table th {
+    background-color: green;
+    color: white;
+}
+
+.manage-customers-table tbody tr:nth-child(even) {
+    background-color: black;
+}
+
+.manage-customers-table tbody tr:hover {
+    background-color: black;
+}
+
+.products-header {
+    background-color: black;
+    padding: 20px 0;
+}
+
+.products-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.products-h1 {
+    margin: 0;
+    color: white;
+}
+
+.products-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.products-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.products-nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.products-containers {
+    padding: 20px 0;
     text-align: center;
 }
 
-.products-buttons .products-button {
+/* Products Buttons */
+.products-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.products-button {
     display: block;
     width: 200px;
     height: 60px;
@@ -211,63 +451,500 @@ body {
     transition: all 0.3s ease;
 }
 
-.products-buttons .products-button:hover {
+.products-button:hover {
     background-color: #333333; /* Black */
     color: #ffffff; /* White */
 }
 
-/* Adjustments for smaller screens if needed */
-@media screen and (max-width: 768px) {
-    .products-buttons .button {
-        width: 160px;
-        height: 50px;
-        font-size: 14px;
-    }
+
+.manage-products-header {
+    background-color: black;
+    padding: 20px 0;
+}
+
+.manage-produts-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.manage-products-h1 {
+    margin: 0;
+}
+
+.manage-produts-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.manage-produts-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.manage-produts-nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.manage-products-container {
+    padding: 20px 0;
+}
+
+.manage-products-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.manage-product-information table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-product-information th,
+.manage-product-information td {
+    border: 1px solid #fff;
+    padding: 8px;
+    text-align: left;
+}
+
+.manage-product-information th {
+    background-color: green;
+    color: white;
+}
+
+.manage-product-information tbody tr:nth-child(even) {
+    background-color:black;
+}
+
+.manage-product-information tbody tr:hover {
+    background-color: #777;
+}
+
+.manage-products-input {
+    margin: 0;
 }
 
 
-  
-  h1 {
-    margin-bottom: 20px; /* Adds space below the heading */
-  }
-  
-  .create-invoice-form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70vh; /* Adjust the height of the form container */
-  }
-  
-  .create-invoice-form-box {
-    border: 2px solid #ccc;
+.manage-products-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.manage-products-button:hover {
+    background-color: #006400; /* Dark green on hover */
+}
+
+.manage-invoice-container {
+    background-color: black;
     padding: 20px;
-    width: 300px; /* Adjust the width of the form box */
-  }
-  
-  .create-invoice-form-box form {
+}
+
+.manage-invoice-h1 {
+    margin: 0;
+}
+
+.manage-invocie-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.manage-invocie-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.manage-invocie-nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.manage-invocie-containers {
+    padding: 20px;
+}
+
+.manage-invocie-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.manage-invocie-table th,
+.manage-invocie-table td {
+    border: 1px solid #fff;
+    padding: 8px;
+    text-align: left;
+}
+
+.manage-invocie-table th {
+    background-color: green;
+    color: white;
+}
+
+.manage-invocie-table tbody tr:nth-child(even) {
+    background-color: black;
+}
+
+.manage-invocie-table tbody tr:hover {
+    background-color: #777;
+}
+
+.manage-invocie-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.manage-invocie-button:hover {
+    background-color: #006400; /* Dark green on hover */
+}
+
+.create-produts-container {
+    background-color: black;
+    padding: 20px;
+}
+
+.create-invoice-new-customer-container{
+    background-color: black;
+    padding: 20px;
+}
+
+.create-products-h1 {
+    margin: 0;
+}
+
+.create-invoice-new-customer-h1{
+    margin: 0;
+}
+
+.create-products-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.create-invoice-new-customer-nav ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.create-products-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.create-invoice-new-customer-nav li{
+    display: inline;
+    margin-right: 20px;    
+}
+
+
+.create-products-nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.create-invoice-new-customer-nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.cretae-products-containers {
+    padding: 60px;
+    padding-left:400px ;
+    padding-right:400px;
+
+}
+
+.create-invoice-new-customer-containers{
+    padding: 60px;
+    padding-left:400px ;
+    padding-right:400px;
+}
+
+.create-produts-form {
     display: flex;
     flex-direction: column;
-  }
-  
-  .create-invoice-form-box label {
-    margin-bottom: 8px;
-  }
-  
-  .create-invoice-form-box select,
-  .create-invoice-form-box button {
-    margin-bottom: 16px;
-    padding: 10px;
-  }
-  
-  .create-invoice-form-box button {
-    background-color: #3498db;
-    color: #fff;
+    align-items: center;
+    background-color: #333; /* Dark background for the form box */
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow for the form box */
+}
+
+.create-invoice-existing-container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Heading styles */
+.create-invoice-existing-h1 {
+    color: white; /* Green */
+}
+
+/* Navigation styles */
+.create-invoice-existing-nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.create-invoice-existing-nav ul li {
+    display: inline;
+    margin-right: 10px;
+}
+
+.create-invoice-existing-nav ul li a {
+    color: white; /* Green */
+    text-decoration: none;
+}
+
+.create-invoice-existing-nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* Form styles */
+.create-invoice-existing-form {
+    margin-top: 20px;
+}
+
+.create-invoice-existing-label {
+    color: green; /* Green */
+    display: block;
+    margin-bottom: 5px;
+}
+
+.create-invoice-existing-input,
+.create-invoice-existing-select {
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.create-invoice-existing-button {
+    background-color: green; /* Green */
+    color: #000;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .create-invoice-form-box button:hover {
-    background-color: #2980b9;
-  }
-  
+}
+
+.create-invoice-existing-button:hover {
+    background-color: #009900; /* Darker green on hover */
+}
+
+/* Message styles */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    color: green; /* Green */
+    margin-bottom: 5px;
+}
+
+.create-invoice-new-customer-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #333; /* Dark background for the form box */
+    padding-left: 400px;
+    padding-right: 400px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Box shadow for the form box */
+}
+
+.create-produts-label {
+    margin-bottom: 10px;
+    color:white
+}
+
+.create-invoice-new-customer-label {
+    margin-bottom: 10px;
+    color:white
+}
+
+.create-produts-input {
+    padding: 8px;
+    margin-bottom: 15px;
+    padding-left: 400px;
+    padding-right: 400px;
+
+}
+
+.create-invoice-new-customer-input {
+    padding: 8px;
+    margin-bottom: 15px;
+
+}
+
+.create-products-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-invoice-new-customer-submit{
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-products-button:hover {
+    background-color: #006400; /* Dark green on hover */
+}
+
+.create-invoice-container {
+    background-color: black;
+    padding: 20px;
+}
+
+.create-invocie-body {
+    margin: 0;
+}
+
+.create-invoice-container nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.create-invoice-container nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.create-invoice-container nav a {
+    text-decoration: none;
+    color: white;
+}
+
+.create-invoice-form-containers {
+    padding: 20px;
+}
+
+.create-invoice-form-box {
+    background-color: lightslategray;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.create-invoice-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color:white;
+}
+
+.create-invoice-label {
+    margin-bottom: 10px;
+    color:white;
+}
+
+.create-invocie-select {
+    padding: 8px;
+    margin-bottom: 15px;
+    color:white;
+}
+
+.create-invocie-button {
+    background-color: green;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-invocie-button:hover {
+    background-color: #006400; /* Dark green on hover */
+}
+
+.create-invoice-main-h1,
+.create-invoice-main-nav a {
+    color: white;
+}
+
+.create-invoice-main-nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.create-invoice-main-nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+.create-invoice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.create-invoice-form-box {
+    background-color: #333;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.create-invoice-main-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left :400px;
+    padding-right:400px ;
+}
+
+.create-invoice-main-label {
+    margin-bottom: 10px;
+    color: white;
+}
+
+.create-invoice-main-input,
+.create-invoice-main-select,
+.create-invoice-main-button {
+    margin-bottom: 15px;
+    padding: 8px;
+}
+
+.create-invoice-main-button {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.create-invoice-main-button:hover {
+    background-color: #006400; /* Dark green on hover */
+}
+
+.create-invoice-main-h2 {
+    color: green;
+}

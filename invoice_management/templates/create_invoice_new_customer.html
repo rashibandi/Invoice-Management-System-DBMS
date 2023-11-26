@@ -8,8 +8,17 @@
     <!-- Include your CSS file -->
 </head>
 <body>
-    <div class="container">
-        <h1>Create Invoice for New Customer</h1>
+    <div class="create-invoice-new-customer-container">
+        <h1 class = 'create-invoice-new-cutomer-h1'>Create Invoice for New Customer</h1>
+        <nav class = 'create-invoice-new-cutomer-nav'>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="{{ url_for('invoices') }}">Invoices</a></li>
+                <li><a href="{{ url_for('products') }}">Products</a></li>
+                <li><a href="{{ url_for('customers') }}">Customers</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
 
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -21,32 +30,32 @@
             {% endif %}
         {% endwith %}
 
-        <form action="/create_invoice/new_customer" method="POST">
-            <label for="invoiceName">Invoice Name:</label>
-            <input type="text" id="invoiceName" name="invoiceName" required><br><br>
+        <form class="create-invoice-new-customer-form" action="/create_invoice/new_customer" method="POST">
+            <label class="create-invoice-new-customer-label" for="invoiceName">Invoice Name:</label>
+            <input class="create-invoice-new-customer-input" type="text" id="invoiceName" name="invoiceName" required><br><br>
 
-            <label for="customer_name">Customer Name:</label>
-            <input type="text" id="customer_name" name="customer_name" required><br><br>
+            <label class="create-invoice-new-customer-label" for="customer_name">Customer Name:</label>
+            <input class="create-invoice-new-customer-input" type="text" id="customer_name" name="customer_name" required><br><br>
             
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <label class="create-invoice-new-customer-label" for="email">Email:</label>
+            <input class="create-invoice-new-customer-input" type="email" id="email" name="email" required><br><br>
             
-            <label for="house_no">House No:</label>
-            <input type="text" id="house_no" name="house_no" required><br><br>
+            <label class="create-invoice-new-customer-label" for="house_no">House No:</label>
+            <input class="create-invoice-new-customer-input" type="text" id="house_no" name="house_no" required><br><br>
             
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required><br><br>
+            <label class="create-invoice-new-customer-label" for="city">City:</label>
+            <input class="create-invoice-new-customer-input" type="text" id="city" name="city" required><br><br>
             
-            <label for="country">Country:</label>
-            <input type="text" id="country" name="country" required><br><br>
+            <label class="create-invoice-new-customer-label" for="country">Country:</label>
+            <input class="create-invoice-new-customer-input" type="text" id="country" name="country" required><br><br>
             
-            <label for="postcode">Postcode:</label>
-            <input type="text" id="postcode" name="postcode" required><br><br>
+            <label class="create-invoice-new-customer-label" for="postcode">Postcode:</label>
+            <input class="create-invoice-new-customer-input" type="text" id="postcode" name="postcode" required><br><br>
             
-            <label for="phone">Phone:</label>
-            <input type="text" id="phone" name="phone" required><br><br>
+            <label class="create-invoice-new-customer-label" for="phone">Phone:</label>
+            <input class="create-invoice-new-customer-input" type="text" id="phone" name="phone" required><br><br>
             
-            <input type="submit" value="Create Invoice">
+            <input class="create-invoice-new-customer-submit" type="submit" value="Create Invoice">
         </form>
     </div>
 </body>
